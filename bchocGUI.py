@@ -2,7 +2,7 @@
 # Jeremy Lacsa
 # TODO: For some reason, run doesn't work when called by button events, gets "local variable 'userInput' referenced before assignment" error, so code is repeated. Need to center buttons on main menu. Improve prompts.
 
-from tkinter import Tk, Frame, Label, Grid, Button, simpledialog, messagebox
+from tkinter import Tk, Frame, Label, Button, simpledialog, messagebox
 
 # global parameters
 BACKGROUND_COLOR = "#fdf6e3"  # Solarized background color
@@ -48,6 +48,7 @@ bottomPad.grid(row=5, column=0, columnspan=2)
 #     # flush userInput
 #     del userInput
 
+
 # ---- Button Click Events ----
 # handles sending user input to backend, display output from command line
 def addClicked():
@@ -57,7 +58,7 @@ def addClicked():
         parent=window,
     )
 
-    if userInput != None:
+    if userInput is not None:
         messagebox.showinfo(
             "Command Output",
             'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
@@ -79,7 +80,7 @@ def removeClicked():
         parent=window,
     )
 
-    if userInput != None:
+    if userInput is not None:
         messagebox.showinfo(
             "Command Output",
             'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
@@ -99,7 +100,7 @@ def checkoutClicked():
         parent=window,
     )
 
-    if userInput != None:
+    if userInput is not None:
         userInput = "-i " + userInput
         messagebox.showinfo(
             "Command Output",
@@ -120,7 +121,7 @@ def checkinClicked():
         parent=window,
     )
 
-    if userInput != None:
+    if userInput is not None:
         userInput = "-i " + userInput
         messagebox.showinfo(
             "Command Output",
@@ -141,7 +142,7 @@ def logClicked():
         parent=window,
     )
 
-    if userInput != None:
+    if userInput is not None:
         messagebox.showinfo(
             "Command Output",
             'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
