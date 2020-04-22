@@ -2,24 +2,36 @@
 # Jeremy Lacsa
 # TODO: For some reason, run doesn't work when called by button events, gets "local variable 'userInput' referenced before assignment" error, so code is repeated. Need to center buttons on main menu. Improve prompts.
 
-from tkinter import Tk, Label, Grid, Button, simpledialog, messagebox
+from tkinter import Tk, Frame, Label, Grid, Button, simpledialog, messagebox
 
 # global parameters
-BACKGROUND_COLOR = 'steel blue'
-BIG_FONT = "Arial Bold"
-SMALL_FONT = "Arial"
+BACKGROUND_COLOR = "#fdf6e3" # Solarized background color
+ACCENT_COLOR = "#eee8d5" # Solarized background highlights color
+FONT_COLOR = "#657b83" # Solarized body font color
+BIG_FONT = "Calibri Bold"
+SMALL_FONT = "Calibri"
 FONT_SIZE = 14
 global userInput # this is the main variable the backend should use
 
 # main window
 window = Tk()
 window.title("Blockchain Chain of Custody")
-window.geometry("400x300")
+window.geometry("350x325")
 window.configure(bg=BACKGROUND_COLOR)
 
+# setup grid
+mainFrame = Frame(window, bg=BACKGROUND_COLOR)
+mainFrame.grid(row=0, column=0)
+mainFrame.grid_rowconfigure(0, weight=1)
+mainFrame.grid_columnconfigure(0, weight=1)
+window.grid_rowconfigure(0, weight=1)
+window.grid_columnconfigure(0, weight=1)
+
 # main prompt
-prompt1 = Label(window, text="Choose a Command:", font=(BIG_FONT, FONT_SIZE), bg=BACKGROUND_COLOR)
-prompt1.grid(row=0, column=0, columnspan = 2, sticky='EW')
+prompt1 = Label(window, text="Choose a Command:", font=(BIG_FONT, FONT_SIZE*2), bg=BACKGROUND_COLOR)
+prompt1.grid(row=0, column=0, columnspan = 2)
+bottomPad = Label(window, text=" ", font=(BIG_FONT, FONT_SIZE*2), bg=BACKGROUND_COLOR)
+bottomPad.grid(row=5, column=0, columnspan = 2)
 
 # handles sending user input to backend, display output from command line (TODO: DOESN'T WORK)
 # def run():
@@ -115,37 +127,37 @@ def helpClicked():
 
 # ---- Buttons ----
 
-# add
+# add button
 add = Button(window, text="Add", font=(BIG_FONT, FONT_SIZE), command=addClicked)
-add.grid(row=1, column=0)
+add.grid(row=1, column=0, sticky='NEWS')
 
-# remove
+# remove button
 remove = Button(window, text="Remove", font=(BIG_FONT, FONT_SIZE), command=removeClicked)
-remove.grid(row=1, column=1)
+remove.grid(row=1, column=1, sticky='NEWS')
 
-# checkout
+# checkout button
 checkout = Button(window, text="Checkout", font=(BIG_FONT, FONT_SIZE), command=checkoutClicked)
-checkout.grid(row=2, column=0)
+checkout.grid(row=2, column=0, sticky='NEWS')
 
-# checkin
+# checkin button
 checkin = Button(window, text="Checkin", font=(BIG_FONT, FONT_SIZE), command=checkinClicked)
-checkin.grid(row=2, column=1)
+checkin.grid(row=2, column=1, sticky='NEWS')
 
-# log
+# log button
 log = Button(window, text="Log", font=(BIG_FONT, FONT_SIZE), command=logClicked)
-log.grid(row=3, column=0)
+log.grid(row=3, column=0, sticky='NEWS')
 
-# init
+# init button
 init = Button(window, text="Init", font=(BIG_FONT, FONT_SIZE), command=initClicked)
-init.grid(row=3, column=1)
+init.grid(row=3, column=1, sticky='NEWS')
 
-# verify
+# verify button
 verify = Button(window, text="Verify", font=(BIG_FONT, FONT_SIZE), command=verifyClicked)
-verify.grid(row=4, column=0)
+verify.grid(row=4, column=0, sticky='NEWS')
 
 # help button
 help = Button(window, text="Help: Argument Flags", font=(BIG_FONT, FONT_SIZE), command=helpClicked)
-help.grid(row=4, column=1)
+help.grid(row=4, column=1, sticky='NEWS')
 
 # ---- End of Buttons ----
 
