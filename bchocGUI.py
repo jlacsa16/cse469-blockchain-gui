@@ -5,13 +5,13 @@
 from tkinter import Tk, Frame, Label, Grid, Button, simpledialog, messagebox
 
 # global parameters
-BACKGROUND_COLOR = "#fdf6e3" # Solarized background color
-ACCENT_COLOR = "#eee8d5" # Solarized background highlights color
-FONT_COLOR = "#657b83" # Solarized body font color
+BACKGROUND_COLOR = "#fdf6e3"  # Solarized background color
+ACCENT_COLOR = "#eee8d5"  # Solarized background highlights color
+FONT_COLOR = "#657b83"  # Solarized body font color
 BIG_FONT = "Calibri Bold"
 SMALL_FONT = "Calibri"
 FONT_SIZE = 14
-global userInput # this is the main variable the backend should use
+global userInput  # this is the main variable the backend should use
 
 # main window
 window = Tk()
@@ -28,10 +28,15 @@ window.grid_rowconfigure(0, weight=1)
 window.grid_columnconfigure(0, weight=1)
 
 # main prompt
-prompt1 = Label(window, text="Choose a Command:", font=(BIG_FONT, FONT_SIZE*2), bg=BACKGROUND_COLOR)
-prompt1.grid(row=0, column=0, columnspan = 2)
-bottomPad = Label(window, text=" ", font=(BIG_FONT, FONT_SIZE*2), bg=BACKGROUND_COLOR)
-bottomPad.grid(row=5, column=0, columnspan = 2)
+prompt1 = Label(
+    window,
+    text="Choose a Command:",
+    font=(BIG_FONT, FONT_SIZE * 2),
+    bg=BACKGROUND_COLOR,
+)
+prompt1.grid(row=0, column=0, columnspan=2)
+bottomPad = Label(window, text=" ", font=(BIG_FONT, FONT_SIZE * 2), bg=BACKGROUND_COLOR)
+bottomPad.grid(row=5, column=0, columnspan=2)
 
 # handles sending user input to backend, display output from command line (TODO: DOESN'T WORK)
 # def run():
@@ -46,82 +51,142 @@ bottomPad.grid(row=5, column=0, columnspan = 2)
 # ---- Button Click Events ----
 # handles sending user input to backend, display output from command line
 def addClicked():
-    userInput = simpledialog.askstring("Add", "Command Description:\nAdd a new checkout entry to the chain of custody for the given evidence item. Checkout actions may only be performed on evidence items that have already been added to the blockchain.\n\nFormat:\n-c case_id -i item_id [-i item_id ...]", parent=window)
-    
+    userInput = simpledialog.askstring(
+        "Add",
+        "Command Description:\nAdd a new checkout entry to the chain of custody for the given evidence item. Checkout actions may only be performed on evidence items that have already been added to the blockchain.\n\nFormat:\n-c case_id -i item_id [-i item_id ...]",
+        parent=window,
+    )
+
     if userInput != None:
-        messagebox.showinfo('Command Output','Your input \"%s\" returned the following output: \n\nINSERT OUTPUT HERE' % (userInput))
+        messagebox.showinfo(
+            "Command Output",
+            'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
+            % (userInput),
+        )
     else:
-        messagebox.showinfo('Error','No command found. Try again.')
+        messagebox.showinfo("Error", "No command found. Try again.")
 
     # flush userInput
     del userInput
 
     # run()
 
+
 def removeClicked():
-    userInput = simpledialog.askstring('Remove','Command Description:\nPrevents any further action from being taken on the evidence item specified. The specified item must have a state of CHECKEDIN for the action to succeed.\n\nFormat:\n-i item_id -y reason [-o owner]', parent=window)
+    userInput = simpledialog.askstring(
+        "Remove",
+        "Command Description:\nPrevents any further action from being taken on the evidence item specified. The specified item must have a state of CHECKEDIN for the action to succeed.\n\nFormat:\n-i item_id -y reason [-o owner]",
+        parent=window,
+    )
 
     if userInput != None:
-        messagebox.showinfo('Command Output','Your input \"%s\" returned the following output: \n\nINSERT OUTPUT HERE' % (userInput))
+        messagebox.showinfo(
+            "Command Output",
+            'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
+            % (userInput),
+        )
     else:
-        messagebox.showinfo('Error','No command found. Try again.')
+        messagebox.showinfo("Error", "No command found. Try again.")
 
     # flush userInput
     del userInput
+
 
 def checkoutClicked():
-    userInput = simpledialog.askstring('Checkout','Command Description: \n\nAdd a new checkout entry to the chain of custody for the given evidence item.\nCheckout actions may only be performed on evidence items that have already been added to the blockchain.\n\nEnter the item id to be checked out:', parent=window)
+    userInput = simpledialog.askstring(
+        "Checkout",
+        "Command Description: \n\nAdd a new checkout entry to the chain of custody for the given evidence item.\nCheckout actions may only be performed on evidence items that have already been added to the blockchain.\n\nEnter the item id to be checked out:",
+        parent=window,
+    )
 
     if userInput != None:
         userInput = "-i " + userInput
-        messagebox.showinfo('Command Output','Your input \"%s\" returned the following output: \n\nINSERT OUTPUT HERE' % (userInput))
+        messagebox.showinfo(
+            "Command Output",
+            'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
+            % (userInput),
+        )
     else:
-        messagebox.showinfo('Error','No command found. Try again.')
+        messagebox.showinfo("Error", "No command found. Try again.")
 
     # flush userInput
     del userInput
+
 
 def checkinClicked():
-    userInput = simpledialog.askstring('Checkin','Command Description: \n\nAdd a new checkin entry to the chain of custody for the given evidence item.\nCheckin actions may only be performed on evidence items that have already been added to the blockchain.\n\nEnter the item id to be checked in:', parent=window)
+    userInput = simpledialog.askstring(
+        "Checkin",
+        "Command Description: \n\nAdd a new checkin entry to the chain of custody for the given evidence item.\nCheckin actions may only be performed on evidence items that have already been added to the blockchain.\n\nEnter the item id to be checked in:",
+        parent=window,
+    )
 
     if userInput != None:
         userInput = "-i " + userInput
-        messagebox.showinfo('Command Output','Your input \"%s\" returned the following output: \n\nINSERT OUTPUT HERE' % (userInput))
+        messagebox.showinfo(
+            "Command Output",
+            'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
+            % (userInput),
+        )
     else:
-        messagebox.showinfo('Error','No command found. Try again.')
+        messagebox.showinfo("Error", "No command found. Try again.")
 
     # flush userInput
     del userInput
+
 
 def logClicked():
-    userInput = simpledialog.askstring('Log','Command Description: \n\nDisplay the blockchain entries giving the oldest first (unless -r is given).\n\nFormat:\n[-r] [-n num_entries] [-c case_id] [-i item_id]', parent=window)
+    userInput = simpledialog.askstring(
+        "Log",
+        "Command Description: \n\nDisplay the blockchain entries giving the oldest first (unless -r is given).\n\nFormat:\n[-r] [-n num_entries] [-c case_id] [-i item_id]",
+        parent=window,
+    )
 
     if userInput != None:
-        messagebox.showinfo('Command Output','Your input \"%s\" returned the following output: \n\nINSERT OUTPUT HERE' % (userInput))
+        messagebox.showinfo(
+            "Command Output",
+            'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
+            % (userInput),
+        )
     else:
-        messagebox.showinfo('Error','No command found. Try again.')
+        messagebox.showinfo("Error", "No command found. Try again.")
 
     # flush userInput
     del userInput
+
 
 def initClicked():
     userInput = "init"
 
-    messagebox.showinfo('Command Output','Command Description: \n\nSanity check. Only starts up and checks for the initial block.\n\nYour input \"%s\" returned the following output: \n\nINSERT OUTPUT HERE' % (userInput))
+    messagebox.showinfo(
+        "Command Output",
+        'Command Description: \n\nSanity check. Only starts up and checks for the initial block.\n\nYour input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
+        % (userInput),
+    )
 
     # flush userInput
     del userInput
+
 
 def verifyClicked():
     userInput = "verify"
 
-    messagebox.showinfo('Command Output','Command Description: \n\nParse the blockchain and validate all entries.\n\nYour input \"%s\" returned the following output: \n\nINSERT OUTPUT HERE' % (userInput))
+    messagebox.showinfo(
+        "Command Output",
+        'Command Description: \n\nParse the blockchain and validate all entries.\n\nYour input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
+        % (userInput),
+    )
 
     # flush userInput
     del userInput
 
+
 def helpClicked():
-    messagebox.showinfo('Help: Argument Flags','Argument Flags:\n\n-i item_id:\nSpecifies the evidence item’s identifier. When used with log only blocks with the given item_id are returned. The item ID must be unique within the blockchain. This means you cannot re-add an evidence item once the remove action has been performed on it.\n\n-r, --reverse:\nReverses the order of the block entries to show the most recent entries first.\n\n-n num_entries:\nWhen used with log, shows num_entries number of block entries.\n\n-y reason, --why reason:\nReason for the removal of the evidence item. Must be one of: DISPOSED, DESTROYED, or RELEASED. If the reason given is RELEASED, -o must also be given.\n\n-o owner:\nInformation about the lawful owner to whom the evidence was released.', parent=window)
+    messagebox.showinfo(
+        "Help: Argument Flags",
+        "Argument Flags:\n\n-i item_id:\nSpecifies the evidence item’s identifier. When used with log only blocks with the given item_id are returned. The item ID must be unique within the blockchain. This means you cannot re-add an evidence item once the remove action has been performed on it.\n\n-r, --reverse:\nReverses the order of the block entries to show the most recent entries first.\n\n-n num_entries:\nWhen used with log, shows num_entries number of block entries.\n\n-y reason, --why reason:\nReason for the removal of the evidence item. Must be one of: DISPOSED, DESTROYED, or RELEASED. If the reason given is RELEASED, -o must also be given.\n\n-o owner:\nInformation about the lawful owner to whom the evidence was released.",
+        parent=window,
+    )
+
 
 # ---- End of Button Click Events ----
 
@@ -129,35 +194,45 @@ def helpClicked():
 
 # add button
 add = Button(window, text="Add", font=(BIG_FONT, FONT_SIZE), command=addClicked)
-add.grid(row=1, column=0, sticky='NEWS')
+add.grid(row=1, column=0, sticky="NEWS")
 
 # remove button
-remove = Button(window, text="Remove", font=(BIG_FONT, FONT_SIZE), command=removeClicked)
-remove.grid(row=1, column=1, sticky='NEWS')
+remove = Button(
+    window, text="Remove", font=(BIG_FONT, FONT_SIZE), command=removeClicked
+)
+remove.grid(row=1, column=1, sticky="NEWS")
 
 # checkout button
-checkout = Button(window, text="Checkout", font=(BIG_FONT, FONT_SIZE), command=checkoutClicked)
-checkout.grid(row=2, column=0, sticky='NEWS')
+checkout = Button(
+    window, text="Checkout", font=(BIG_FONT, FONT_SIZE), command=checkoutClicked
+)
+checkout.grid(row=2, column=0, sticky="NEWS")
 
 # checkin button
-checkin = Button(window, text="Checkin", font=(BIG_FONT, FONT_SIZE), command=checkinClicked)
-checkin.grid(row=2, column=1, sticky='NEWS')
+checkin = Button(
+    window, text="Checkin", font=(BIG_FONT, FONT_SIZE), command=checkinClicked
+)
+checkin.grid(row=2, column=1, sticky="NEWS")
 
 # log button
 log = Button(window, text="Log", font=(BIG_FONT, FONT_SIZE), command=logClicked)
-log.grid(row=3, column=0, sticky='NEWS')
+log.grid(row=3, column=0, sticky="NEWS")
 
 # init button
 init = Button(window, text="Init", font=(BIG_FONT, FONT_SIZE), command=initClicked)
-init.grid(row=3, column=1, sticky='NEWS')
+init.grid(row=3, column=1, sticky="NEWS")
 
 # verify button
-verify = Button(window, text="Verify", font=(BIG_FONT, FONT_SIZE), command=verifyClicked)
-verify.grid(row=4, column=0, sticky='NEWS')
+verify = Button(
+    window, text="Verify", font=(BIG_FONT, FONT_SIZE), command=verifyClicked
+)
+verify.grid(row=4, column=0, sticky="NEWS")
 
 # help button
-help = Button(window, text="Help: Argument Flags", font=(BIG_FONT, FONT_SIZE), command=helpClicked)
-help.grid(row=4, column=1, sticky='NEWS')
+help = Button(
+    window, text="Help: Argument Flags", font=(BIG_FONT, FONT_SIZE), command=helpClicked
+)
+help.grid(row=4, column=1, sticky="NEWS")
 
 # ---- End of Buttons ----
 
