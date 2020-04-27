@@ -1,8 +1,13 @@
 # Blockchain Chain of Custody GUI
 # Jeremy Lacsa
-# TODO: For some reason, run doesn't work when called by button events, gets "local variable 'userInput' referenced before assignment" error, so code is repeated. Need to center buttons on main menu. Improve prompts.
+# TODO:
+# Fix run() so that commands are run correctly through bchoc.py
+# Ensure output is saved to commandLineOutput
+# Perform above tasks on init and verify
 
 from tkinter import Tk, Frame, Label, Button, simpledialog, messagebox
+import os
+import bchoc
 
 # global parameters
 BACKGROUND_COLOR = "#fdf6e3"  # Solarized background color
@@ -11,7 +16,10 @@ FONT_COLOR = "#657b83"  # Solarized body font color
 BIG_FONT = "Calibri Bold"
 SMALL_FONT = "Calibri"
 FONT_SIZE = 14
-global userInput  # this is the main variable the backend should use
+
+# command line variables
+# global userInput  # this is the user's command to be sent to bchoc.py
+# global commandLineOutput  # this is the output from bchoc.py
 
 # main window
 window = Tk()
@@ -38,20 +46,29 @@ prompt1.grid(row=0, column=0, columnspan=2)
 bottomPad = Label(window, text=" ", font=(BIG_FONT, FONT_SIZE * 2), bg=BACKGROUND_COLOR)
 bottomPad.grid(row=5, column=0, columnspan=2)
 
-# handles sending user input to backend, display output from command line (TODO: DOESN'T WORK)
-# def run():
-#     if userInput != "" or None:
-#         messagebox.showinfo('Command Output','Your input \"%s\" returned the following output: \n\nINSERT OUTPUT HERE' % (userInput))
-#     else:
-#         messagebox.showinfo('Error','No command found. Try again.')
+# open bchoc.py, run command, save output
+def run():
+    global commandLineOutput  # this is the output from bchoc.py
 
-#     # flush userInput
-#     del userInput
+    # open bchoc.py and run the command "userInput"
+    os.system("python bchoc.py")
+    # os.system('%s' % userInput)  # should theoretically run the command within bchoc.py
+
+    # save the output as commandLineOutput
+    commandLineOutput = "placeholder"
+
+    # retrieve bchoc.py command line output, display results
+    messagebox.showinfo(
+        "Command Output",
+        'Your input\n"%s"\nreturned the following output: \n\n%s'
+        % (userInput, commandLineOutput),
+    )
 
 
 # ---- Button Click Events ----
 # handles sending user input to backend, display output from command line
 def addClicked():
+    global userInput  # need to declare within the function
     userInput = simpledialog.askstring(
         "Add",
         "Command Description:\nAdd a new checkout entry to the chain of custody for the given evidence item. Checkout actions may only be performed on evidence items that have already been added to the blockchain.\n\nFormat:\n-c case_id -i item_id [-i item_id ...]",
@@ -59,21 +76,22 @@ def addClicked():
     )
 
     if userInput is not None:
-        messagebox.showinfo(
-            "Command Output",
-            'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
-            % (userInput),
-        )
+        # append necessary command to user input
+        userInput = "bchoc add " + userInput
+
+        # send command to bchoc.py
+        run()
+
     else:
         messagebox.showinfo("Error", "No command found. Try again.")
 
     # flush userInput
     del userInput
 
-    # run()
-
 
 def removeClicked():
+    global userInput  # need to declare within the function
+    
     userInput = simpledialog.askstring(
         "Remove",
         "Command Description:\nPrevents any further action from being taken on the evidence item specified. The specified item must have a state of CHECKEDIN for the action to succeed.\n\nFormat:\n-i item_id -y reason [-o owner]",
@@ -81,11 +99,12 @@ def removeClicked():
     )
 
     if userInput is not None:
-        messagebox.showinfo(
-            "Command Output",
-            'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
-            % (userInput),
-        )
+        # append necessary command to user input
+        userInput = "bchoc remove " + userInput
+
+        # send command to bchoc.py
+        run()
+
     else:
         messagebox.showinfo("Error", "No command found. Try again.")
 
@@ -94,6 +113,8 @@ def removeClicked():
 
 
 def checkoutClicked():
+    global userInput  # need to declare within the function
+
     userInput = simpledialog.askstring(
         "Checkout",
         "Command Description: \n\nAdd a new checkout entry to the chain of custody for the given evidence item.\nCheckout actions may only be performed on evidence items that have already been added to the blockchain.\n\nEnter the item id to be checked out:",
@@ -101,12 +122,12 @@ def checkoutClicked():
     )
 
     if userInput is not None:
-        userInput = "-i " + userInput
-        messagebox.showinfo(
-            "Command Output",
-            'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
-            % (userInput),
-        )
+        # append necessary command to user input
+        userInput = "bchoc checkout -i " + userInput
+
+        # send command to bchoc.py
+        run()
+
     else:
         messagebox.showinfo("Error", "No command found. Try again.")
 
@@ -115,6 +136,8 @@ def checkoutClicked():
 
 
 def checkinClicked():
+    global userInput  # need to declare within the function
+
     userInput = simpledialog.askstring(
         "Checkin",
         "Command Description: \n\nAdd a new checkin entry to the chain of custody for the given evidence item.\nCheckin actions may only be performed on evidence items that have already been added to the blockchain.\n\nEnter the item id to be checked in:",
@@ -122,12 +145,12 @@ def checkinClicked():
     )
 
     if userInput is not None:
-        userInput = "-i " + userInput
-        messagebox.showinfo(
-            "Command Output",
-            'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
-            % (userInput),
-        )
+        # append necessary command to user input
+        userInput = "bchoc checkin -i " + userInput
+
+        # send command to bchoc.py
+        run()
+
     else:
         messagebox.showinfo("Error", "No command found. Try again.")
 
@@ -136,6 +159,8 @@ def checkinClicked():
 
 
 def logClicked():
+    global userInput  # need to declare within the functions
+
     userInput = simpledialog.askstring(
         "Log",
         "Command Description: \n\nDisplay the blockchain entries giving the oldest first (unless -r is given).\n\nFormat:\n[-r] [-n num_entries] [-c case_id] [-i item_id]",
@@ -143,11 +168,12 @@ def logClicked():
     )
 
     if userInput is not None:
-        messagebox.showinfo(
-            "Command Output",
-            'Your input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
-            % (userInput),
-        )
+        # append necessary command to user input
+        userInput = "bchoc log " + userInput
+
+        # send command to bchoc.py
+        run()
+
     else:
         messagebox.showinfo("Error", "No command found. Try again.")
 
@@ -156,26 +182,36 @@ def logClicked():
 
 
 def initClicked():
-    userInput = "init"
+    global userInput  # need to declare within the function
+
+    global commandLineOutput  # this is the output from bchoc.py
+
+    userInput = "bchoc init"
 
     messagebox.showinfo(
         "Command Output",
-        'Command Description: \n\nSanity check. Only starts up and checks for the initial block.\n\nYour input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
-        % (userInput),
+        'Command Description: \n\nSanity check. Only starts up and checks for the initial block.'
     )
+
+    run()
 
     # flush userInput
     del userInput
 
 
 def verifyClicked():
-    userInput = "verify"
+    global userInput  # need to declare within the function
+
+    global commandLineOutput  # this is the output from bchoc.py
+
+    userInput = "bchoc verify"
 
     messagebox.showinfo(
         "Command Output",
-        'Command Description: \n\nParse the blockchain and validate all entries.\n\nYour input "%s" returned the following output: \n\nINSERT OUTPUT HERE'
-        % (userInput),
+        'Command Description: \n\nParse the blockchain and validate all entries.'
     )
+
+    run()
 
     # flush userInput
     del userInput
@@ -239,3 +275,5 @@ help.grid(row=4, column=1, sticky="NEWS")
 
 # run the GUI
 window.mainloop()
+
+# ---- END OF GUI ----
