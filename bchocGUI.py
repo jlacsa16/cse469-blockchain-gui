@@ -47,11 +47,11 @@ bottomPad.grid(row=5, column=0, columnspan=2)
 def run():
     global commandLineOutput  # this is the output from bchoc.py
 
-    # open bchoc.py and run the command "userInput"
-    os.system("python ./bchoc.py %s" % userInput)  # yay, this is working!
+    # open bchoc.py and run the command "userInput", retrieve output as commandLineOutput
+    commandLineOutput = subprocess.Popen("python ./bchoc.py %s" % userInput, stdout=subprocess.PIPE)
 
-    # retrieve the output from the bchoc.py run as commandLineOutput
-    commandLineOutput = "bchoc.py output"
+    # parse subprocess output
+    commandLineOutput = commandLineOutput.stdout.read().decode("utf-8")
 
     # retrieve bchoc.py command line output, display results
     messagebox.showinfo(
@@ -166,6 +166,10 @@ def logClicked():
     if userInput is not None:
         # append necessary command to user input
         userInput = "log " + userInput
+
+        # remove space if no flags were used
+        if userInput == "log ":
+            userInput = "log"
 
         # send command to bchoc.py
         run()
