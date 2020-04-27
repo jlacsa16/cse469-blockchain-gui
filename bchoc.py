@@ -243,8 +243,8 @@ def checkout():
             block.evidence_id,
             "\n  Status:",
             block.state.decode("utf-8").rstrip("\x00"),
-            "\n  Time of action:",
-            datetime.fromtimestamp(block.timestamp),
+            "\n  Time:",
+            datetime.fromtimestamp(block.timestamp).isoformat(),
         )
 
 
@@ -309,7 +309,7 @@ def checkin():
             "\n  Status:",
             block.state.decode("utf-8").rstrip("\x00"),
             "\n  Time of action:",
-            datetime.fromtimestamp(block.timestamp),
+            datetime.fromtimestamp(block.timestamp).isoformat(),
         )
 
 
@@ -402,35 +402,25 @@ def log():
                 if number_of_items == 0:
                     break
                 else:
-                    print(
-                        "Case:",
-                        UUID(int=int.from_bytes(block[2], byteorder="little")),
-                        "\nItem:",
-                        block[3],
-                        "\nAction:",
-                        block[4].decode("utf-8").rstrip("\x00"),
-                        "\nTime of action:",
-                        datetime.fromtimestamp(block[1]).strftime("%Y-%m-%dT%H:%M:%S.%f") + "Z",
-                        "\n",
-                    )
+                    print("Case:", UUID(int=int.from_bytes(block[2], byteorder="little")))
+                    print("Item:", block[3])
+                    print("Action:", block[4].decode("utf-8").rstrip("\x00"))
+                    print("Time:", datetime.fromtimestamp(block[1]).strftime("%Y-%m-%dT%H:%M:%S.%f") + "Z")
                     number_of_items -= 1
+                    if number_of_items != 0:
+                        print()
         else:
             for block in all_blocks:
                 if number_of_items == 0:
                     break
                 else:
-                    print(
-                        "Case:",
-                        UUID(int=int.from_bytes(block[2], byteorder="little")),
-                        "\nItem:",
-                        block[3],
-                        "\nAction:",
-                        block[4].decode("utf-8").rstrip("\x00"),
-                        "\nTime:",
-                        datetime.fromtimestamp(block[1]).strftime("%Y-%m-%dT%H:%M:%S.%f") + "Z",
-                        "\n",
-                    )
+                    print("Case:", UUID(int=int.from_bytes(block[2], byteorder="little")))
+                    print("Item:", block[3])
+                    print("Action:", block[4].decode("utf-8").rstrip("\x00"))
+                    print("Time:", datetime.fromtimestamp(block[1]).strftime("%Y-%m-%dT%H:%M:%S.%f") + "Z")
                     number_of_items -= 1
+                    if number_of_items != 0:
+                        print()
 
 
 # prevent further action on a given evidence, item must be "CHECKEDIN"
