@@ -6,8 +6,7 @@
 # Perform above tasks on init and verify
 
 from tkinter import Tk, Frame, Label, Button, simpledialog, messagebox
-import os
-import bchoc
+import bchoc, os, subprocess
 
 # global parameters
 BACKGROUND_COLOR = "#fdf6e3"  # Solarized background color
@@ -36,13 +35,13 @@ window.grid_rowconfigure(0, weight=1)
 window.grid_columnconfigure(0, weight=1)
 
 # main prompt
-prompt1 = Label(
+mainPrompt = Label(
     window,
     text="Choose a Command:",
     font=(BIG_FONT, FONT_SIZE * 2),
     bg=BACKGROUND_COLOR,
 )
-prompt1.grid(row=0, column=0, columnspan=2)
+mainPrompt.grid(row=0, column=0, columnspan=2)
 bottomPad = Label(window, text=" ", font=(BIG_FONT, FONT_SIZE * 2), bg=BACKGROUND_COLOR)
 bottomPad.grid(row=5, column=0, columnspan=2)
 
@@ -51,11 +50,9 @@ def run():
     global commandLineOutput  # this is the output from bchoc.py
 
     # open bchoc.py and run the command "userInput"
-    os.system("python bchoc.py")
-    # os.system('%s' % userInput)  # should theoretically run the command within bchoc.py
 
-    # save the output as commandLineOutput
-    commandLineOutput = "placeholder"
+    # retrieve the output from the bchoc.py run as commandLineOutput
+    commandLineOutput = "bchoc.py output"
 
     # retrieve bchoc.py command line output, display results
     messagebox.showinfo(
