@@ -1,9 +1,7 @@
 # Blockchain Chain of Custody GUI
 # Jeremy Lacsa
 # TODO:
-# Fix run() so that commands are run correctly through bchoc.py
 # Ensure output is saved to commandLineOutput
-# Perform above tasks on init and verify
 
 from tkinter import Tk, Frame, Label, Button, simpledialog, messagebox
 import bchoc, os, subprocess
@@ -50,6 +48,7 @@ def run():
     global commandLineOutput  # this is the output from bchoc.py
 
     # open bchoc.py and run the command "userInput"
+    os.system("python ./bchoc.py %s" % userInput)  # yay, this is working!
 
     # retrieve the output from the bchoc.py run as commandLineOutput
     commandLineOutput = "bchoc.py output"
@@ -74,7 +73,7 @@ def addClicked():
 
     if userInput is not None:
         # append necessary command to user input
-        userInput = "bchoc add " + userInput
+        userInput = "add " + userInput
 
         # send command to bchoc.py
         run()
@@ -97,7 +96,7 @@ def removeClicked():
 
     if userInput is not None:
         # append necessary command to user input
-        userInput = "bchoc remove " + userInput
+        userInput = "remove " + userInput
 
         # send command to bchoc.py
         run()
@@ -120,7 +119,7 @@ def checkoutClicked():
 
     if userInput is not None:
         # append necessary command to user input
-        userInput = "bchoc checkout -i " + userInput
+        userInput = "checkout -i " + userInput
 
         # send command to bchoc.py
         run()
@@ -143,7 +142,7 @@ def checkinClicked():
 
     if userInput is not None:
         # append necessary command to user input
-        userInput = "bchoc checkin -i " + userInput
+        userInput = "checkin -i " + userInput
 
         # send command to bchoc.py
         run()
@@ -166,7 +165,7 @@ def logClicked():
 
     if userInput is not None:
         # append necessary command to user input
-        userInput = "bchoc log " + userInput
+        userInput = "log " + userInput
 
         # send command to bchoc.py
         run()
@@ -183,7 +182,7 @@ def initClicked():
 
     global commandLineOutput  # this is the output from bchoc.py
 
-    userInput = "bchoc init"
+    userInput = "init"
 
     messagebox.showinfo(
         "Command Output",
@@ -201,7 +200,7 @@ def verifyClicked():
 
     global commandLineOutput  # this is the output from bchoc.py
 
-    userInput = "bchoc verify"
+    userInput = "verify"
 
     messagebox.showinfo(
         "Command Output",
